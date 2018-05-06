@@ -16,23 +16,28 @@ def subset_sum(arr, sum):
     # rows -> arr elements
 
     # crating 2D matrix with 0 value
-    dp = [[0 for x in range(sum + 1)] for x in range(m)]
+    dp = [[0 for x in range(sum + 1)] for x in range(m+1)]
 
     # if sum is 0  then for all the sets->{} value would be 1, so setting 1st
     # column values to 1
-    for i in range(m):
+    for i in range(m+1):
         dp[i][0] = 1
 
-    for i in range(m):
-        for j in range(sum+1):
+    # for subset is 0, can we can't reach to a sum, setting all values in 1st
+    # row equals to 0
+    for i in range(sum+1):
+        dp[0][i] = 0
+
+    for i in range(1, m+1):
+        for j in range(1, sum+1):
 
             # if sum is less than current value of set->{}, then check if this
             # sum is achieved without using current value
-            if j < arr[i]:
+            if j < arr[i-1]:
                 dp[i][j] = dp[i-1][j]
 
             # if sum is equal to current value then set 1
-            if j == arr[i]:
+            if j == arr[i-1]:
                 dp[i][j] = 1
 
             # if sum > current value of set, then
@@ -42,14 +47,19 @@ def subset_sum(arr, sum):
             #    then check if sum 3 is "1". because adding curr value of set-{}
             #    would make it 10.
             else:
-                dp[i][j] = dp[i-1][j-arr[i]] or dp[i-1][j]
+                # if current value of set->{} if greater then sum given  then
+                # we can ignore
+                if arr[i-1] > sum:
+                    continue
 
-    print(dp)
-    return dp[m-1][sum]
+                dp[i][j] = dp[i-1][j-arr[i-1]] or dp[i-1][j]
+
+    # print(dp)
+    return dp[m][sum]
 
 
 if __name__ == "__main__":
-    arr = [3, 34, 4, 12, 5, 2]
-    sum = 9
+    arr = [8,5,2,3, 7, 33, 34]
+    sum = 19
 
     print("subset of sum exists: {}".format(subset_sum(arr, sum)))
