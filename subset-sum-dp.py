@@ -18,7 +18,7 @@ def subset_sum(arr, sum):
     # crating 2D matrix with 0 value
     dp = [[0 for x in range(sum + 1)] for x in range(m)]
 
-    # if sum is 0  the for all the sets->{} value would be 1, so setting 1st
+    # if sum is 0  then for all the sets->{} value would be 1, so setting 1st
     # column values to 1
     for i in range(m):
         dp[i][0] = 1
@@ -26,7 +26,7 @@ def subset_sum(arr, sum):
     for i in range(m):
         for j in range(sum+1):
 
-            # if sum is less than current value of set->{}, the check if this
+            # if sum is less than current value of set->{}, then check if this
             # sum is achieved without using current value
             if j < arr[i]:
                 dp[i][j] = dp[i-1][j]
